@@ -6,7 +6,7 @@ import (
 )
 type User struct {
 	gorm.Model
-	Id					uint
+	// Id					uint
 	Nik					string
 	Name				string
 	PhoneNumber			string
