@@ -87,3 +87,17 @@ func (mr *mysqlUserRepository) GetUserByEmail(email string) (bool, error) {
 	}
 	return false, nil
 }
+
+
+func (mr *mysqlUserRepository) GetUserByNik(nik string) (bool, error) {
+	var userModel User
+	err := mr.DB.Where("nik = ?", nik).Find(&userModel).Error
+	if err != nil {
+		return false, err
+	}
+	if userModel.ID != 0 {
+		return true, nil
+	}
+	return false, nil
+}
+

@@ -30,6 +30,15 @@ func (us *userService) RegisterUser(data user.UserCore) (error) {
 		return errors.New(msg)
 	}
 
+	isExistNIK, err := us.userRepository.GetUserByNik(data.Nik)
+	if err!=nil{
+		return err
+	}
+	if isExistNIK{
+		msg := fmt.Sprintf("nik %v already in used", data.Nik)
+		return errors.New(msg)
+	}
+
 	userId, err := us.userRepository.InsertUserData(data)
 	if err != nil {
 		return err
@@ -81,11 +90,29 @@ func (us *userService) UpdateUser(data user.UserCore) error {
 		if !helper.ValidateNik(data.Nik){
 			return errors.New("incomplete or invalid data")
 		}
+
+		isExistNIK, err := us.userRepository.GetUserByNik(data.Nik)
+		if err!=nil{
+			return err
+		}
+		if isExistNIK{
+			msg := fmt.Sprintf("nik %v already in used", data.Nik)
+			return errors.New(msg)
+		}
 	}
 
 	if(data.Email!=""){
 		if !helper.ValidateEmail(data.Email){
 			return errors.New("incomplete or invalid data")
+		}
+		
+		isExist, err := us.userRepository.GetUserByEmail(data.Email)
+		if err != nil {
+			return err
+		}
+		if isExist {
+			msg := fmt.Sprintf("email %v already in used", data.Email)
+			return errors.New(msg)
 		}
 	}
 
@@ -94,16 +121,12 @@ func (us *userService) UpdateUser(data user.UserCore) error {
 			return errors.New("incomplete or invalid data")
 		}
 	}
-
 	
 	if(data.Password!=""){
 		if !helper.ValidatePassword(data.Password){
 			return errors.New("incomplete or invalid data")
 		}
-	}
-
-	
-
+	}	
 
 	err := us.userRepository.UpdateUser(data)
 	if err != nil {
