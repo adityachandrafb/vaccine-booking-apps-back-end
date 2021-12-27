@@ -64,12 +64,11 @@ func (mr *mysqlUserRepository) GetData(data user.UserCore) ([]user.UserCore, err
 }
 
 func (mr *mysqlUserRepository)UpdateUser(data user.UserCore)error{
-	err:=mr.DB.Debug().Model(&User{}).Where("id=?",data.Id).Updates(User{
+	err:=mr.DB.Debug().Model(&User{}).Where("id = ?", data.Id).Updates(User{
 		Nik: data.Nik,
 		Name:data.Name,
 		PhoneNumber: data.PhoneNumber,
 		Email: data.Email,
-		Password: data.Password,
 	}).Error
 	if err!=nil{
 		return nil

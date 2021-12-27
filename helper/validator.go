@@ -15,6 +15,16 @@ func ValidateEmail(email string) bool {
 	return emailRegex.MatchString(email)
 }
 
+func ValidatePhoneNumber(phoneNumber string) bool {
+	phoneNumberRegex := regexp.MustCompile(`^[0-9]*$`)
+	length := len(phoneNumber)
+	if length < 8 || length > 15 {
+		return false
+	}
+
+	return phoneNumberRegex.MatchString(phoneNumber)
+}
+
 func ValidatePassword(password string) bool {
 	length := len(password)
 	if length < 6 || length > 100 {

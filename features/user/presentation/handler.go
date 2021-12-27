@@ -10,7 +10,7 @@ import (
 	"vac/helper"
 	"vac/middleware"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type UserHandler struct {

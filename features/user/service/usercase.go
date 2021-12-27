@@ -77,7 +77,6 @@ func (us *userService) GetUserById(id int) (user.UserCore, error) {
 }
 
 func (us *userService) UpdateUser(data user.UserCore) error {
-	// update primary user data
 	err := us.userRepository.UpdateUser(data)
 	if err != nil {
 		return err

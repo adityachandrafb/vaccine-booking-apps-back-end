@@ -5,7 +5,7 @@ import (
 	"vac/config"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func CreateToken(id uint, role string) (string, error) {
