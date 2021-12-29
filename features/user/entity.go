@@ -25,4 +25,5 @@ type Repository interface{
 	GetDataById(id int)(user UserCore, err error)
 	UpdateUser(data UserCore)error
 	GetUserByEmail(email string) (bool, error)
+	GetUserByNik(nik string)(bool, error)
 }

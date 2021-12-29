@@ -25,6 +25,16 @@ func ValidatePhoneNumber(phoneNumber string) bool {
 	return phoneNumberRegex.MatchString(phoneNumber)
 }
 
+func ValidateNik(nik string) bool {
+	nikRegex := regexp.MustCompile(`^[0-9]*$`)
+	length := len(nik)
+	if length !=16 {
+		return false
+	}
+
+	return nikRegex.MatchString(nik)
+}
+
 func ValidatePassword(password string) bool {
 	length := len(password)
 	if length < 6 || length > 100 {

@@ -24,5 +24,10 @@ func New() *echo.Echo{
 	e.POST("/users/login", presenter.UserPresentation.LoginUserHandler)
 	jwt.PUT("/users", presenter.UserPresentation.UpdateUserHandler)
 
+	jwt.GET("/admins", presenter.AdminPresentation.GetAdminsHandler)
+	jwt.GET("/admin/:id", presenter.AdminPresentation.GetAdminByIdHandler)
+	e.POST("/admin/register", presenter.AdminPresentation.RegisterAdminHandler)
+	e.POST("/admin/login", presenter.AdminPresentation.LoginAdminHandler)
+	
 	return e
 }
