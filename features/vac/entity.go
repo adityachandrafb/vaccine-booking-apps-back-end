@@ -8,10 +8,18 @@ type VacCore struct {
 	Location	string
 	Latitude 	float64
 	Longitude 	float64
-	Schedule 	time.Time
-	Session		string
+	Sessions	[]SessionCore
 	VacType		string
 	Stock		int
+	AdminId		int
+}
+
+type SessionCore struct{
+	ID			uint
+	VacId		uint
+	Description	string
+	StartTime 	time.Time
+	EndTime		time.Time
 }
 
 type Service interface{
