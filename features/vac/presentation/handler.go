@@ -3,6 +3,7 @@ package presentation
 import (
 	"errors"
 	"net/http"
+	"strconv"
 	"vac/features/vac"
 	"vac/features/vac/presentation/request"
 	"vac/features/vac/presentation/response"
@@ -53,4 +54,34 @@ func (vh *VacHandler) GetVacPostHandler(e echo.Context)error{
 		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
 	}
 	return helper.SuccessResponse(e, response.ToVacResponseList(data))
+}
+
+func(vh *VacHandler)GetVacPostByIdHandler(e echo.Context)error{
+	id, err:=strconv.Atoi(e.Param("id"))
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid id parameter", err)
+	}
+	data, err:=vh.vacService.GetVaccinationByIdPost(id)
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+	return helper.SuccessResponse(e, response.ToVacResponse(data))
+}
+
+func(vh *VacHandler)DeletVacPostHandler(e echo.Context)error{
+	id, err:=strconv.Atoi(e.Param("id"))
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid id parameter", err)
+	}
+	claims:=middleware.ExtractClaim(e)
+	adminId:=claims["id"].(float64)
+	role:=claims["role"].(string)
+	if role!="admin"{
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to delete data", errors.New("not allowed to delete data"))
+	}
+	err=vh.vacService.DeleteVaccinationPost(vac.VacCore{ID: id, AdminId: int(adminId)})
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+	return helper.SuccessResponse(e, nil)
 }
