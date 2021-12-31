@@ -85,3 +85,24 @@ func(vh *VacHandler)DeletVacPostHandler(e echo.Context)error{
 	}
 	return helper.SuccessResponse(e, nil)
 }
+
+func(vh *VacHandler)UpdateVacPostHandler(e echo.Context)error{
+	payloadData:=request.VacUpdate{}
+	err:=e.Bind(&payloadData)
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid payload data", err)
+	}
+	claims:=middleware.ExtractClaim(e)
+	payloadData.AdminId=int(claims["id"].(float64))
+	role:=claims["role"].(string)
+	if role!="admin"{
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to update data", errors.New("not allowed to update data"))
+	}
+
+	err=vh.vacService.UpdateVaccinationPost(payloadData.ToCore())
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+	return helper.SuccessResponse(e, nil)
+
+}
