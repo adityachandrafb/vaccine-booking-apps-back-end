@@ -29,5 +29,11 @@ func New() *echo.Echo{
 	e.POST("/admin/register", presenter.AdminPresentation.RegisterAdminHandler)
 	e.POST("/admin/login", presenter.AdminPresentation.LoginAdminHandler)
 	
+	jwt.POST("/vac",presenter.VacPresentation.CreateVacPostHandler)
+	e.GET("/vacs", presenter.VacPresentation.GetVacPostHandler)
+	e.GET("/vac/:id", presenter.VacPresentation.GetVacPostByIdHandler)
+	jwt.DELETE("/vac/:id", presenter.VacPresentation.DeletVacPostHandler)
+	jwt.PUT("/vac", presenter.VacPresentation.UpdateVacPostHandler)
+
 	return e
 }
