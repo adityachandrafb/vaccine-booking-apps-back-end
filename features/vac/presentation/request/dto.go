@@ -6,7 +6,7 @@ import (
 )
 
 type Vac struct {
-	ID          int			`json:"id"`
+	ID          uint		`json:"id"`
 	Description string		`json:"description"`
 	Location    string		`json:"location"`
 	Latitude    float64		`json:"latitude"`
@@ -16,8 +16,9 @@ type Vac struct {
 	Stock       int			`json:"stock"`
 	AdminId     int			`json:"adminId"`
 }
+
 type VacUpdate struct {
-	ID          int			`json:"id"`
+	ID          uint		`json:"id"`
 	Description string		`json:"description"`
 	Location    string		`json:"location"`
 	Latitude    float64		`json:"latitude"`
