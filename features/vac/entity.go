@@ -23,11 +23,11 @@ type SessionCore struct{
 }
 
 type Service interface{
-	CreateVaccination(data VacCore)(err error)
-	GetVaccination(data VacCore)([]VacCore, error)
-	GetVaccinationById(id int)(VacCore, error)
-	DeleteVaccination(data VacCore)(err error)
-	UpdateVaccination(data VacCore)error
+	CreateVaccinationPost(data VacCore)(err error)
+	GetVaccinationPost(data VacCore)([]VacCore, error)
+	GetVaccinationByIdPost(id int)(VacCore, error)
+	DeleteVaccinationPost(data VacCore)(err error)
+	UpdateVaccinationPost(data VacCore)error
 }
 
 type Repository interface{
