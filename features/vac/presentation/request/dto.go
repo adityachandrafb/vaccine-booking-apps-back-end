@@ -87,11 +87,7 @@ func (s *Session) ToCore() vac.SessionCore{
 func (vu *VacUpdate) ToCore() vac.VacCore{
 	convertedSession:=[]vac.SessionCore{}
 	for _,req:=range vu.Sessions{
-		convertedSession = append(convertedSession, vac.SessionCore{
-			Description: req.Description,
-			StartTime: req.StartTime,
-			EndTime: req.EndTime,
-		})
+		convertedSession = append(convertedSession, req.ToCore())
 	}
 	return vac.VacCore{
 		ID: int(vu.ID),
