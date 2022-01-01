@@ -11,7 +11,7 @@ type Vac struct {
 	Location    string		`json:"location"`
 	Latitude    float64		`json:"latitude"`
 	Longitude   float64		`json:"longitude"`
-	Sessions    []string	`json:"sessions"`
+	Sessions    []Session	`json:"sessions"`
 	VacType     string		`json:"vacType"`
 	Stock       int			`json:"stock"`
 	AdminId     int			`json:"adminId"`
@@ -47,7 +47,9 @@ func (v *Vac) ToCore() vac.VacCore{
 	convertedSession:=[]vac.SessionCore{}
 	for _,req:=range v.Sessions{
 		convertedSession = append(convertedSession, vac.SessionCore{
-			Description: req,
+			Description: req.Description,
+			StartTime: req.StartTime,
+			EndTime: req.EndTime,
 		})
 	}
 	return vac.VacCore{
@@ -83,9 +85,13 @@ func (s *Session) ToCore() vac.SessionCore{
 
 
 func (vu *VacUpdate) ToCore() vac.VacCore{
-	convertedSessions:=[]vac.SessionCore{}
-	for _, ses:=range vu.Sessions{
-		convertedSessions = append(convertedSessions, ses.ToCore())
+	convertedSession:=[]vac.SessionCore{}
+	for _,req:=range vu.Sessions{
+		convertedSession = append(convertedSession, vac.SessionCore{
+			Description: req.Description,
+			StartTime: req.StartTime,
+			EndTime: req.EndTime,
+		})
 	}
 	return vac.VacCore{
 		ID: int(vu.ID),
@@ -93,7 +99,7 @@ func (vu *VacUpdate) ToCore() vac.VacCore{
 		Location: vu.Location,
 		Latitude: vu.Latitude,
 		Longitude: vu.Longitude,
-		Sessions: convertedSessions,
+		Sessions: convertedSession,
 		VacType: vu.VacType,
 		Stock: vu.Stock,
 		AdminId: vu.AdminId,
