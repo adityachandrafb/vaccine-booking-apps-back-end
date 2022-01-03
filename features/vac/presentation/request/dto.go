@@ -30,10 +30,10 @@ type VacUpdate struct {
 }
 
 type Session struct {
-	ID          uint
-	Description string
-	StartTime   time.Time
-	EndTime     time.Time
+	ID          uint		`json:"id"`
+	Description string		`json:"description"`
+	StartTime   time.Time	`json:"startTime"`
+	EndTime     time.Time	`json:"endTime"`
 }
 
 type VacFilter struct{

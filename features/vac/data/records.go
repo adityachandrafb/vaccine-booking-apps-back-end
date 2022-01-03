@@ -103,5 +103,6 @@ func SeparateVacSession(data Vac)(Vac, []Session){
 		AdminId: data.AdminId,
 	}
 	newSessions:=data.Sessions
+	
 	return newVac, newSessions
 }
