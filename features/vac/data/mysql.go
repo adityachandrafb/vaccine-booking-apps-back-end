@@ -62,22 +62,22 @@ func (vr *mysqlVaccineRepository)UpdateVacData(data vac.VacCore)error{
 		return err
 	}
 
-	for _,req:=range sessions{
-		if req.ID!=0{
-			if req.Description==""{
-				err=vr.DB.Debug().Delete(&Session{}, req.ID).Error
+	for _, ses := range sessions{
+		if ses.ID!=0{
+			if ses.Description==""{
+				err=vr.DB.Debug().Delete(&Session{}, ses.ID).Error
 				if err!=nil{
 					return err
 				}
-			}else{
-				err=vr.DB.Debug().Model(&Session{}).Where("id=?",req.ID).Update("description", req.Description).Error
+			} else {
+				err = vr.DB.Debug().Model(&Session{}).Where("id = ?", ses.ID).Update("description", ses.Description,).Error
 				if err!=nil{
 					return err
 				}
 			}
-		}else if req.ID==0{
-			req.VacId=uint(data.ID)
-			err=vr.DB.Debug().Select("VacID", "Description").Create(&req).Error
+		}else if ses.ID == 0{
+			ses.VacId=uint(data.ID)
+			err=vr.DB.Debug().Select("VacID", "Description", "StartTime", "EndTime").Create(&ses).Error
 		}
 		if err!=nil{
 			return err
