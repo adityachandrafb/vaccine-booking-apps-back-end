@@ -46,6 +46,21 @@ type SessionCore struct{
 }
 
 type Repository interface{
-	ApplyVaccination(ParticipantCore)error
-	
+	ApplyParticipant(ParticipantCore)error
+	GetParticipantByUserID(int)([]ParticipantCore, error)
+	GetParticipantByID(int)(ParticipantCore, error)
+	GetParticipantByVacID(int)([]ParticipantCore, error)
+	GetParticipantMultiParam(int, int)(ParticipantCore, error)
+	RejectParticipant(int)error
+	AcceptParticipant(int)error
+}
+
+type Service interface{
+	ApplyParticipant(ParticipantCore)error
+	GetParticipantByUserID(int)([]ParticipantCore, error)
+	GetParticipantByID(int)(ParticipantCore, error)
+	GetParticipantByVacID(int)([]ParticipantCore, error)
+	GetParticipantMultiParam(int, int)(ParticipantCore, error)
+	RejectParticipant(int, int) error
+	AcceptParticipant(int, int) error
 }

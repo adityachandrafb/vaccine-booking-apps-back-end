@@ -1,9 +1,7 @@
 package data
 
 import (
-	"fmt"
 	"vac/features/vac"
-
 	"gorm.io/gorm"
 )
 
@@ -57,8 +55,6 @@ func (vr *mysqlVaccineRepository)DeleteVacData(data vac.VacCore)error{
 
 func (vr *mysqlVaccineRepository)UpdateVacData(data vac.VacCore)error{
 	vacData, sessions:=SeparateVacSession(toRecordVac(data))
-	fmt.Println("session ")
-	fmt.Print(data.Sessions)
 
 	err:=vr.DB.Debug().Where("id = ?",data.ID).Updates(&vacData).Error
 	if err!=nil{
@@ -80,7 +76,7 @@ func (vr *mysqlVaccineRepository)UpdateVacData(data vac.VacCore)error{
 			}
 		}else if ses.ID == 0{
 			ses.VacId=uint(data.ID)
-			err=vr.DB.Debug().Select("VacID", "Description", "StartTime", "EndTime").Create(&ses).Error
+			err=vr.DB.Debug().Select("Description", "StartTime", "EndTime").Create(&ses).Error
 		}
 		if err!=nil{
 			return err
