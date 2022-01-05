@@ -47,6 +47,7 @@ func (v *Vac) ToCore() vac.VacCore{
 	convertedSession:=[]vac.SessionCore{}
 	for _,req:=range v.Sessions{
 		convertedSession = append(convertedSession, vac.SessionCore{
+			ID: req.ID,
 			Description: req.Description,
 			StartTime: req.StartTime,
 			EndTime: req.EndTime,
