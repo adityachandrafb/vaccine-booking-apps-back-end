@@ -3,12 +3,13 @@ package request
 import "vac/features/participant"
 
 type ParticipantRequest struct {
-	Nik         uint   `json:"nik"`
-	Fullname    string `json:"fullname"`
-	Address     string `json:"address"`
-	PhoneNumber string `json:"phone_number"`
-	VacID       uint   `json:"VacID"`
-	UserID      uint   `json:"UserID`
+	Nik         uint   	`json:"nik"`
+	Fullname    string 	`json:"fullname"`
+	Address     string 	`json:"address"`
+	PhoneNumber string 	`json:"phone_number"`
+	VacID       uint   	`json:"VacID"`
+	SessionID	uint	`json:"SessionID"`
+	UserID      uint   	`json:"UserID`
 }
 
 func (par *ParticipantRequest) ToCore() participant.ParticipantCore{
