@@ -122,7 +122,7 @@ func ToCore(data Participant)participant.ParticipantCore{
 	}
 }
 
-func ToCoreList(data []Participant)[]participant.ParticipantCore{
+func ToCoreList(data []Participant) []participant.ParticipantCore{
 	convertedData:=[]participant.ParticipantCore{}
 	for _, par:=range data{
 		convertedData = append(convertedData, ToCore(par))
