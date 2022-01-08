@@ -35,5 +35,13 @@ func New() *echo.Echo{
 	jwt.DELETE("/vac/:id", presenter.VacPresentation.DeletVacPostHandler)
 	jwt.PUT("/vac", presenter.VacPresentation.UpdateVacPostHandler)
 
+	// participant
+	jwt.POST("/participant", presenter.ParticipantPresentation.ApplyParticipantHandler)
+	jwt.GET("/participant/:id", presenter.ParticipantPresentation.GetParticipantByIDHandler)
+	jwt.GET("/participant/user", presenter.ParticipantPresentation.GetParticipantByUserIdHandler)
+	jwt.GET("/participant/vac/:id", presenter.ParticipantPresentation.GetParticipantByVacIdHandler)
+	jwt.PUT("/participant/canceled", presenter.ParticipantPresentation.RejectParticipantHandler)
+	jwt.PUT("/participant/vaccinated", presenter.ParticipantPresentation.AcceptParticipant)
+
 	return e
 }

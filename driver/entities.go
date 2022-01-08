@@ -1,9 +1,10 @@
 package driver
 
-import(
-	UserModel "vac/features/user/data"
+import (
 	AdminModel "vac/features/admin/data"
+	UserModel "vac/features/user/data"
 	VacModel "vac/features/vac/data"
+	ParticipantModel "vac/features/participant/data"
 )
 type Entity struct{
 	Model interface{}
@@ -15,5 +16,6 @@ func registerEntities() []Entity{
 		{AdminModel.Admin{}},
 		{VacModel.Vac{}},
 		{VacModel.Session{}},
+		{ParticipantModel.Participant{}},
 	}
 }
