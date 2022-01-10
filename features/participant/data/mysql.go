@@ -48,7 +48,7 @@ func (pr *mysqlParRepository) ApplyParticipant(data participant.ParticipantCore)
 
 func (pr *mysqlParRepository) GetParticipantByUserID(id int) ([]participant.ParticipantCore, error) {
 	var participants []Participant
-	err := pr.DB.Debug().Where("user_id=?", id).Joins("Vac").Preload("Vac.Sessions").Find(&participants).Error
+	err := pr.DB.Debug().Where("user_id=?", id).Joins("Vac").Find(&participants).Error
 	if err != nil {
 		return nil, err
 	}

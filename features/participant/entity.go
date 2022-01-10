@@ -10,10 +10,12 @@ type ParticipantCore struct {
 	PhoneNumber string
 	UserID      uint
 	VacID       uint
+	SessionID   uint
 	Status      string
 	AppliedAt   time.Time
 	Vac         VacCore
 	User        UserCore
+	Sessions    SessionCore
 }
 
 type UserCore struct {
@@ -30,7 +32,6 @@ type VacCore struct {
 	Location    string
 	Latitude    float64
 	Longitude   float64
-	Sessions    []SessionCore
 	VacType     string
 	Stock       int
 	AdminId     int

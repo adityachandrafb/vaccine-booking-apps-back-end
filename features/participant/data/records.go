@@ -15,10 +15,12 @@ type Participant struct {
 	PhoneNumber string
 	UserID      uint
 	VacID       uint
+	SessionID   uint
 	Status      string
 	AppliedAt   time.Time
 	Vac         Vac
 	User        User
+	Session     Session
 }
 
 type Vac struct {
@@ -27,7 +29,6 @@ type Vac struct {
 	Location    string
 	Latitude    float64
 	Longitude   float64
-	Sessions    []Session
 	VacType     string
 	Stock       int
 	AdminId     int
@@ -50,20 +51,20 @@ type User struct {
 }
 
 func (v *Vac) toCore() participant.VacCore {
-	convertedSession := []participant.SessionCore{}
-	for _, ses := range v.Sessions {
-		convertedSession = append(convertedSession, ses.toCore())
-	}
+	// convertedSession := []participant.SessionCore{}
+	// for _, ses := range v.Sessions {
+	// 	convertedSession = append(convertedSession, ses.toCore())
+	// }
 	return participant.VacCore{
 		ID:          int(v.ID),
 		Description: v.Description,
 		Location:    v.Location,
 		Latitude:    v.Latitude,
 		Longitude:   v.Longitude,
-		Sessions:    convertedSession,
-		VacType:     v.VacType,
-		Stock:       v.Stock,
-		AdminId:     v.AdminId,
+		// Sessions:    convertedSession,
+		VacType: v.VacType,
+		Stock:   v.Stock,
+		AdminId: v.AdminId,
 	}
 }
 
@@ -97,13 +98,13 @@ func toCoreList(vacs []Vac) []participant.VacCore {
 
 func ToParticipantRecord(data participant.ParticipantCore) Participant {
 	return Participant{
-
 		Nik:         data.Nik,
 		Fullname:    data.Fullname,
 		Address:     data.Address,
 		PhoneNumber: data.PhoneNumber,
 		UserID:      data.UserID,
 		VacID:       data.VacID,
+		SessionID:   data.SessionID,
 		Status:      data.Status,
 		AppliedAt:   data.AppliedAt,
 	}
@@ -118,10 +119,12 @@ func ToCore(data Participant) participant.ParticipantCore {
 		PhoneNumber: data.PhoneNumber,
 		UserID:      data.UserID,
 		VacID:       data.VacID,
+		SessionID:   data.SessionID,
 		Status:      data.Status,
 		AppliedAt:   data.AppliedAt,
 		Vac:         data.Vac.toCore(),
 		User:        data.User.toCore(),
+		Sessions:    data.Session.toCore(),
 	}
 }
 

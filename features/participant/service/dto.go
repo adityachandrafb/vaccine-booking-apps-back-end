@@ -23,21 +23,27 @@ func ToVacCore(data vac.VacCore) participant.VacCore {
 		Location:    data.Location,
 		Latitude:    data.Latitude,
 		Longitude:   data.Longitude,
-		Sessions:    ToSessionCore(data.Sessions),
-		VacType:     data.VacType,
-		Stock:       data.Stock,
-		AdminId:     data.AdminId,
+		// Sessions:    ToSessionCore(data.Sessions),
+		VacType: data.VacType,
+		Stock:   data.Stock,
+		AdminId: data.AdminId,
 	}
 }
 
-func ToSessionCore(data []vac.SessionCore) []participant.SessionCore {
-	converted := []participant.SessionCore{}
-	for _, ses := range data {
-		converted = append(converted, participant.SessionCore{
-			ID:          ses.ID,
-			Description: ses.Description,
-			StartTime:   ses.StartTime,
-			EndTime:     ses.EndTime})
+func ToSessionCore(data vac.SessionCore) participant.SessionCore {
+	// converted := []participant.SessionCore{}
+	// for _, ses := range data {
+	// 	converted = append(converted, participant.SessionCore{
+	// 		ID:          ses.ID,
+	// 		Description: ses.Description,
+	// 		StartTime:   ses.StartTime,
+	// 		EndTime:     ses.EndTime})
+	// }
+	// return converted
+	return participant.SessionCore{
+		ID:          data.ID,
+		Description: data.Description,
+		StartTime:   data.StartTime,
+		EndTime:     data.EndTime,
 	}
-	return converted
 }

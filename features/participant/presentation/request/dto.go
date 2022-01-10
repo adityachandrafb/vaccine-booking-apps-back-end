@@ -8,7 +8,7 @@ type ParticipantRequest struct {
 	Address     string `json:"address"`
 	PhoneNumber string `json:"phone_number"`
 	VacID       uint   `json:"VacID"`
-	SessionID   uint   `json:"SessionID"`
+	SessionID   uint   `json:"session_id"`
 	UserID      uint   `json:"UserID`
 }
 
@@ -19,6 +19,7 @@ func (par *ParticipantRequest) ToCore() participant.ParticipantCore {
 		Address:     par.Address,
 		PhoneNumber: par.PhoneNumber,
 		VacID:       par.VacID,
+		SessionID:   par.SessionID,
 		UserID:      par.UserID,
 	}
 }

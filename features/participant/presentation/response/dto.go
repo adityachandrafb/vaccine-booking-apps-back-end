@@ -34,9 +34,11 @@ type ParticipantResponse struct {
 	PhoneNumber string
 	UserID      uint
 	VacID       uint
+	SessionID   uint
 	Status      string
 	Vac         VacResponse
 	User        UserResponse
+	Session     SessionResponse
 }
 
 type ParticipantResponseUser struct {
@@ -47,8 +49,10 @@ type ParticipantResponseUser struct {
 	PhoneNumber string
 	UserID      uint
 	VacID       uint
+	SessionID   uint
 	Status      string
 	Vac         VacResponse
+	Session     SessionResponse
 }
 
 type ParticipantResponseVac struct {
@@ -59,17 +63,19 @@ type ParticipantResponseVac struct {
 	PhoneNumber string
 	UserID      uint
 	VacID       uint
+	SessionID   uint
 	Status      string
 	User        UserResponse
+	Session     SessionResponse
 }
 
 type VacResponse struct {
 	ID          uint
 	Description string
 	Location    string
-	Sessions    []SessionResponse
-	VacType     string
-	Stock       int
+	// Sessions    []SessionResponse
+	VacType string
+	Stock   int
 }
 
 type VacDetailResponse struct {
@@ -78,10 +84,10 @@ type VacDetailResponse struct {
 	Location    string
 	Latitude    float64
 	Longitude   float64
-	Sessions    []SessionResponse
-	VacType     string
-	Stock       int
-	AdminId     int
+	// Sessions    []SessionResponse
+	VacType string
+	Stock   int
+	AdminId int
 }
 
 type SessionResponse struct {
@@ -115,8 +121,10 @@ func ToParticipantResponseUser(data participant.ParticipantCore) ParticipantResp
 		PhoneNumber: data.PhoneNumber,
 		UserID:      data.UserID,
 		VacID:       data.VacID,
+		SessionID:   data.SessionID,
 		Status:      data.Status,
 		Vac:         ToVacResponse(data.Vac),
+		Session:     ToSessionsResponse(data.Sessions),
 	}
 }
 
@@ -148,8 +156,10 @@ func ToParticipantResponseVac(data participant.ParticipantCore) ParticipantRespo
 		PhoneNumber: data.PhoneNumber,
 		UserID:      data.UserID,
 		VacID:       data.VacID,
+		SessionID:   data.SessionID,
 		Status:      data.Status,
 		User:        ToUserResponse(data.User),
+		Session:     ToSessionsResponse(data.Sessions),
 	}
 }
 
@@ -178,9 +188,11 @@ func ToParticipantResponse(data participant.ParticipantCore) ParticipantResponse
 		PhoneNumber: data.PhoneNumber,
 		UserID:      data.UserID,
 		VacID:       data.VacID,
+		SessionID:   data.SessionID,
 		Status:      data.Status,
 		Vac:         ToVacResponse(data.Vac),
 		User:        ToUserResponse(data.User),
+		Session:     ToSessionsResponse(data.Sessions),
 	}
 }
 
@@ -191,25 +203,30 @@ func ToVacDetailResponse(data participant.VacCore) VacDetailResponse {
 		Location:    data.Location,
 		Latitude:    data.Latitude,
 		Longitude:   data.Longitude,
-		Sessions:    ToSessionsResponse(data.Sessions),
 		VacType:     data.VacType,
 		Stock:       data.Stock,
 		AdminId:     data.AdminId,
 	}
 }
 
-func ToSessionsResponse(data []participant.SessionCore) []SessionResponse {
-	converted := []SessionResponse{}
-	for _, ses := range data {
-		temp := SessionResponse{
-			ses.ID,
-			ses.Description,
-			ses.StartTime,
-			ses.EndTime,
-		}
-		converted = append(converted, temp)
+func ToSessionsResponse(data participant.SessionCore) SessionResponse {
+	// converted := []SessionResponse{}
+	// for _, ses := range data {
+	// 	temp := SessionResponse{
+	// 		ses.ID,
+	// 		ses.Description,
+	// 		ses.StartTime,
+	// 		ses.EndTime,
+	// 	}
+	// 	converted = append(converted, temp)
+	// }
+	// return converted
+	return SessionResponse{
+		ID:          data.ID,
+		Description: data.Description,
+		StartTime:   data.StartTime,
+		EndTime:     data.EndTime,
 	}
-	return converted
 }
 
 func ToUserDetailResponse(data participant.UserCore) UserDetailResponse {

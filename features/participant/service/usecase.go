@@ -34,39 +34,34 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 		msg := fmt.Sprintf("vac with id %v not found", data.VacID)
 		return errors.New(msg)
 	}
+
 	stockUsed, err := pr.parRepository.CountParticipantByVac(int(data.VacID))
 	if err != nil {
 		msg := fmt.Sprintf("vac with id %v not counted", data.VacID)
 		return errors.New(msg)
 	}
 	if stockUsed > vacData.Stock {
-		msg := fmt.Sprintf("vac with id %v is out of stock", data.VacID)
+		msg := fmt.Sprintf("This vaccination with id %v is out of stock", data.VacID)
 		return errors.New(msg)
 	}
 
 	if !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Fullname) == 0 || len(data.Address) == 0 {
-		return errors.New("incomplete or invalid data")
+		return errors.New("incomplete or invalid data. please input the correct nik, number, fullname, and address")
 	}
+
 	isExist, err := pr.parRepository.GetParticipantByNIK(data.Nik)
 	if err != nil {
 		return err
 	}
 	if isExist {
-		msg := fmt.Sprintf("nik %v already in used", data.Nik)
+		msg := fmt.Sprintf("nik %v already registered", data.Nik)
 		return errors.New(msg)
 	}
-	//
-	// parData, err := pr.parRepository.GetParticipantMultiParam(int(data.VacID), int(data.UserID))
-	// if err != nil {
-	// 	return err
-	// }
-	// if parData.ID != 0 {
-	// 	msg := fmt.Sprintf("user with id %v had registered participant with id %v, current status = %v", parData.ID, parData.VacID, parData.Status)
-	// 	return errors.New(msg)
-	// }
+
 	if data.Status == "" {
 		data.Status = "registered"
 	}
+
 	data.AppliedAt = time.Now()
 	err = pr.parRepository.ApplyParticipant(data)
 	if err != nil {
@@ -74,6 +69,7 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 	}
 	return nil
 }
+
 func (pr *parService) GetParticipantByUserID(id int) ([]participant.ParticipantCore, error) {
 	participants, err := pr.parRepository.GetParticipantByUserID(id)
 	if err != nil {
@@ -81,6 +77,7 @@ func (pr *parService) GetParticipantByUserID(id int) ([]participant.ParticipantC
 	}
 	return participants, nil
 }
+
 func (pr *parService) GetParticipantByID(id int) (participant.ParticipantCore, error) {
 	parData, err := pr.parRepository.GetParticipantByID(id)
 	if err != nil {
