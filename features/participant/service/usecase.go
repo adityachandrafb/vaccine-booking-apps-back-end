@@ -56,7 +56,7 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 	}
 
 	if !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Fullname) == 0 || len(data.Address) == 0 || data.SessionID == 0 {
-		return errors.New("incomplete or invalid data. please input the correct nik, number, fullname, and address")
+		return errors.New("incomplete or invalid data. please input the correct nik, session, fullname, and address")
 	}
 
 	isExist, err := pr.parRepository.GetParticipantByNIK(data.Nik)
