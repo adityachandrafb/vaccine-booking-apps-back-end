@@ -80,6 +80,21 @@ func (uh *UserHandler) GetUserByIdHandler(e echo.Context) error {
 
 	return helper.SuccessResponse(e, response.ToUserResponse(data))
 }
+func (uh *UserHandler) GetUserOwnIdentity(e echo.Context) error {
+	claims := middleware.ExtractClaim(e)
+	role := claims["role"].(string)
+	if role != "user" {
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to get data", errors.New("forbidden"))
+	}
+	userId := int(claims["id"].(float64))
+
+	data, err := uh.userService.GetUserById(userId)
+	if err != nil {
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+
+	return helper.SuccessResponse(e, response.ToUserResponse(data))
+}
 
 func (uh *UserHandler) UpdateUserHandler(e echo.Context) error {
 	var userData request.UserRequest

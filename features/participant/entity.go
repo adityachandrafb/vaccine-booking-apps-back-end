@@ -56,6 +56,7 @@ type Repository interface {
 	//validation
 	GetParticipantByNIK(nik string) (bool, error)
 	CountParticipantByVac(vacId int) (int, error)
+	CountParicipantByUserId(userId int) (int, error)
 }
 
 type Service interface {

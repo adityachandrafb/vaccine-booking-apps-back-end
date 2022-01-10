@@ -37,7 +37,7 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 
 	stockUsed, err := pr.parRepository.CountParticipantByVac(int(data.VacID))
 	if err != nil {
-		msg := fmt.Sprintf("vac with id %v not counted", data.VacID)
+		msg := fmt.Sprintf("vac with id %v failed to count", data.VacID)
 		return errors.New(msg)
 	}
 	if stockUsed > vacData.Stock {
@@ -45,7 +45,17 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 		return errors.New(msg)
 	}
 
-	if !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Fullname) == 0 || len(data.Address) == 0 {
+	limitUser, err := pr.parRepository.CountParicipantByUserId(int(data.UserID))
+	if err != nil {
+		msg := fmt.Sprintf("vac with id %v failed to count", data.VacID)
+		return errors.New(msg)
+	}
+	if limitUser > 5 {
+		msg := fmt.Sprintf("user with id %v already reach limit for applying new participant", data.UserID)
+		return errors.New(msg)
+	}
+
+	if !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Fullname) == 0 || len(data.Address) == 0 || data.SessionID == 0 {
 		return errors.New("incomplete or invalid data. please input the correct nik, number, fullname, and address")
 	}
 

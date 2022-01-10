@@ -79,7 +79,7 @@ func (vr *mysqlVaccineRepository) UpdateVacData(data vac.VacCore) error {
 			}
 		} else if ses.ID == 0 {
 			ses.VacId = vacData.ID
-			err = vr.DB.Debug().Select("Description", "StartTime", "EndTime").Create(&ses).Error
+			err = vr.DB.Debug().Create(&ses).Error
 		}
 		if err != nil {
 			return err
