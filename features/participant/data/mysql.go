@@ -48,7 +48,7 @@ func (pr *mysqlParRepository) ApplyParticipant(data participant.ParticipantCore)
 
 func (pr *mysqlParRepository) GetParticipantByUserID(id int) ([]participant.ParticipantCore, error) {
 	var participants []Participant
-	err := pr.DB.Debug().Where("user_id=?", id).Joins("Vac").Find(&participants).Error
+	err := pr.DB.Debug().Where("user_id=?", id).Joins("Vac").Joins("Session").Find(&participants).Error
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (pr *mysqlParRepository) AcceptParticipant(id int) error {
 
 func (pr *mysqlParRepository) GetParticipantByID(id int) (participant.ParticipantCore, error) {
 	var data Participant
-	err := pr.DB.Debug().First(&data, id).Error
+	err := pr.DB.Debug().Joins("Session").First(&data, id).Error
 	if err != nil {
 		return participant.ParticipantCore{}, err
 	}
@@ -85,7 +85,7 @@ func (pr *mysqlParRepository) GetParticipantByID(id int) (participant.Participan
 
 func (pr *mysqlParRepository) GetParticipantByVacID(id int) ([]participant.ParticipantCore, error) {
 	var participants []Participant
-	err := pr.DB.Where("vac_id=?", id).Joins("User").Find(&participants).Error
+	err := pr.DB.Where("vac_id=?", id).Preload("Session").Joins("User").Find(&participants).Error
 	if err != nil {
 		return nil, err
 	}
