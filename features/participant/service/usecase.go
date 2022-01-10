@@ -29,10 +29,21 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 	if err != nil {
 		return err
 	}
+
 	if vacData.ID == 0 {
 		msg := fmt.Sprintf("vac with id %v not found", data.VacID)
 		return errors.New(msg)
 	}
+	stockUsed, err := pr.parRepository.CountParticipantByVac(int(data.VacID))
+	if err != nil {
+		msg := fmt.Sprintf("vac with id %v not counted", data.VacID)
+		return errors.New(msg)
+	}
+	if stockUsed > vacData.Stock {
+		msg := fmt.Sprintf("vac with id %v is out of stock", data.VacID)
+		return errors.New(msg)
+	}
+
 	if !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Fullname) == 0 || len(data.Address) == 0 {
 		return errors.New("incomplete or invalid data")
 	}

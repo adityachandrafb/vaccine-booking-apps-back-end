@@ -40,12 +40,9 @@ func (ph *ParticipantHandler) ApplyParticipantHandler(e echo.Context) error {
 	if role != "user" {
 		return helper.ErrorResponse(e, http.StatusForbidden, "you must login as user to apply participant", errors.New("not allowed"))
 	}
+
 	parData.UserID = userId
 	err = ph.participantService.ApplyParticipant(parData.ToCore())
-	// err = ph.participantService.ApplyParticipant(participant.ParticipantCore{
-	// 	VacID:  uint(vacId),
-	// 	UserID: userId,
-	// })
 
 	if err != nil {
 		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)

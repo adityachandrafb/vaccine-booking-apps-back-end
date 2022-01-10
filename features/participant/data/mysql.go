@@ -15,6 +15,16 @@ func NewMysqlParticipantRepository(db *gorm.DB) participant.Repository {
 	return &mysqlParRepository{db}
 }
 
+func (pr *mysqlParRepository) CountParticipantByVac(vacId int) (int, error) {
+	var countPar int64
+	var parModel Participant
+	err := pr.DB.Model(&parModel).Where("vac_id = ?", vacId).Count(&countPar).Error
+	if err != nil {
+		return 0, err
+	}
+	return int(countPar), nil
+}
+
 func (pr *mysqlParRepository) GetParticipantByNIK(nik string) (bool, error) {
 	var parModel Participant
 	err := pr.DB.Where("nik = ?", nik).Find(&parModel).Error
