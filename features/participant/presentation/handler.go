@@ -24,6 +24,10 @@ func NewParticipantHandler(ps participant.Service) *ParticipantHandler {
 func (ph *ParticipantHandler) ApplyParticipantHandler(e echo.Context) error {
 	parData := request.ParticipantRequest{}
 	err := e.Bind(&parData)
+
+	if err != nil {
+		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid payoad data", err)
+	}
 	vacId, err := strconv.Atoi(e.QueryParam("vacId"))
 	if err != nil {
 		return helper.ErrorResponse(e, http.StatusBadRequest, "Invalid id parameter", err)
@@ -102,6 +106,11 @@ func (ph *ParticipantHandler) AcceptParticipant(e echo.Context) error {
 }
 
 func (ph *ParticipantHandler) GetParticipantByIDHandler(e echo.Context) error {
+	claims := middleware.ExtractClaim(e)
+	role := claims["role"].(string)
+	if role != "admin" {
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to get data", errors.New("forbidden"))
+	}
 	id, err := strconv.Atoi(e.Param("id"))
 	if err != nil {
 		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid id parameter", err)
@@ -115,6 +124,11 @@ func (ph *ParticipantHandler) GetParticipantByIDHandler(e echo.Context) error {
 }
 
 func (ph *ParticipantHandler) GetParticipantByVacIdHandler(e echo.Context) error {
+	claims := middleware.ExtractClaim(e)
+	role := claims["role"].(string)
+	if role != "admin" {
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to get data", errors.New("forbidden"))
+	}
 	id, err := strconv.Atoi(e.Param("id"))
 	if err != nil {
 		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid id parameter", err)

@@ -9,7 +9,7 @@ import (
 
 type Participant struct {
 	gorm.Model
-	Nik         uint
+	Nik         string
 	Fullname    string
 	Address     string
 	PhoneNumber string

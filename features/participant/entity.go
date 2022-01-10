@@ -4,7 +4,7 @@ import "time"
 
 type ParticipantCore struct {
 	ID          uint
-	Nik         uint
+	Nik         string
 	Fullname    string
 	Address     string
 	PhoneNumber string
@@ -52,6 +52,8 @@ type Repository interface {
 	GetParticipantMultiParam(int, int) (ParticipantCore, error)
 	RejectParticipant(int) error
 	AcceptParticipant(int) error
+	//validation
+	GetParticipantByNIK(nik string) (bool, error)
 }
 
 type Service interface {

@@ -7,6 +7,7 @@ import (
 	"vac/features/participant"
 	"vac/features/user"
 	"vac/features/vac"
+	"vac/helper"
 )
 
 type parService struct {
@@ -32,15 +33,26 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 		msg := fmt.Sprintf("vac with id %v not found", data.VacID)
 		return errors.New(msg)
 	}
-
-	parData, err := pr.parRepository.GetParticipantMultiParam(int(data.VacID), int(data.UserID))
+	if !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Fullname) == 0 || len(data.Address) == 0 {
+		return errors.New("incomplete or invalid data")
+	}
+	isExist, err := pr.parRepository.GetParticipantByNIK(data.Nik)
 	if err != nil {
 		return err
 	}
-	if parData.ID != 0 {
-		msg := fmt.Sprintf("user with id %v had registered participant with id %v, current status = %v", parData.ID, parData.VacID, parData.Status)
+	if isExist {
+		msg := fmt.Sprintf("nik %v already in used", data.Nik)
 		return errors.New(msg)
 	}
+	//
+	// parData, err := pr.parRepository.GetParticipantMultiParam(int(data.VacID), int(data.UserID))
+	// if err != nil {
+	// 	return err
+	// }
+	// if parData.ID != 0 {
+	// 	msg := fmt.Sprintf("user with id %v had registered participant with id %v, current status = %v", parData.ID, parData.VacID, parData.Status)
+	// 	return errors.New(msg)
+	// }
 	if data.Status == "" {
 		data.Status = "registered"
 	}

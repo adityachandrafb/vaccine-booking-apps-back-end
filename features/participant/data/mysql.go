@@ -15,6 +15,18 @@ func NewMysqlParticipantRepository(db *gorm.DB) participant.Repository {
 	return &mysqlParRepository{db}
 }
 
+func (pr *mysqlParRepository) GetParticipantByNIK(nik string) (bool, error) {
+	var parModel Participant
+	err := pr.DB.Where("nik = ?", nik).Find(&parModel).Error
+	if err != nil {
+		return false, err
+	}
+	if parModel.ID != 0 {
+		return true, nil
+	}
+	return false, nil
+}
+
 func (pr *mysqlParRepository) ApplyParticipant(data participant.ParticipantCore) error {
 	parData := ToParticipantRecord(data)
 	err := pr.DB.Create(&parData).Error

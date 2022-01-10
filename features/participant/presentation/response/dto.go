@@ -28,7 +28,7 @@ func NewSuccessResponse(e echo.Context, msg string, data interface{}) error {
 
 type ParticipantResponse struct {
 	ID          uint
-	Nik         uint
+	Nik         string
 	Fullname    string
 	Address     string
 	PhoneNumber string
@@ -41,7 +41,7 @@ type ParticipantResponse struct {
 
 type ParticipantResponseUser struct {
 	ID          uint
-	Nik         uint
+	Nik         string
 	Fullname    string
 	Address     string
 	PhoneNumber string
@@ -53,7 +53,7 @@ type ParticipantResponseUser struct {
 
 type ParticipantResponseVac struct {
 	ID          uint
-	Nik         uint
+	Nik         string
 	Fullname    string
 	Address     string
 	PhoneNumber string
