@@ -16,8 +16,8 @@ func NewUserService(userRepository user.Repository) user.Service {
 	return &userService{userRepository}
 }
 
-func (us *userService) RegisterUser(data user.UserCore) (error) {
-	if !helper.ValidateEmail(data.Email) || !helper.ValidatePassword(data.Password) || !helper.ValidateNik(data.Nik)|| !helper.ValidatePhoneNumber(data.PhoneNumber)||len(data.Name) == 0 {
+func (us *userService) RegisterUser(data user.UserCore) error {
+	if !helper.ValidateEmail(data.Email) || !helper.ValidatePassword(data.Password) || !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Name) == 0 {
 		return errors.New("incomplete or invalid data")
 	}
 
@@ -31,10 +31,10 @@ func (us *userService) RegisterUser(data user.UserCore) (error) {
 	}
 
 	isExistNIK, err := us.userRepository.GetUserByNik(data.Nik)
-	if err!=nil{
+	if err != nil {
 		return err
 	}
-	if isExistNIK{
+	if isExistNIK {
 		msg := fmt.Sprintf("nik %v already in used", data.Nik)
 		return errors.New(msg)
 	}
@@ -43,7 +43,7 @@ func (us *userService) RegisterUser(data user.UserCore) (error) {
 	if err != nil {
 		return err
 	}
-	if userId<0{
+	if userId < 0 {
 		return err
 	}
 	return nil
@@ -85,27 +85,37 @@ func (us *userService) GetUserById(id int) (user.UserCore, error) {
 	return userData, nil
 }
 
+func (us *userService) GetUserOwnIdentity(id int) (user.UserCore, error) {
+	userData, err := us.userRepository.GetDataById(id)
+
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return userData, nil
+}
+
 func (us *userService) UpdateUser(data user.UserCore) error {
-	if(data.Nik!=""){
-		if !helper.ValidateNik(data.Nik){
+	if data.Nik != "" {
+		if !helper.ValidateNik(data.Nik) {
 			return errors.New("incomplete or invalid data")
 		}
 
 		isExistNIK, err := us.userRepository.GetUserByNik(data.Nik)
-		if err!=nil{
+		if err != nil {
 			return err
 		}
-		if isExistNIK{
+		if isExistNIK {
 			msg := fmt.Sprintf("nik %v already in used", data.Nik)
 			return errors.New(msg)
 		}
 	}
 
-	if(data.Email!=""){
-		if !helper.ValidateEmail(data.Email){
+	if data.Email != "" {
+		if !helper.ValidateEmail(data.Email) {
 			return errors.New("incomplete or invalid data")
 		}
-		
+
 		isExist, err := us.userRepository.GetUserByEmail(data.Email)
 		if err != nil {
 			return err
@@ -116,17 +126,17 @@ func (us *userService) UpdateUser(data user.UserCore) error {
 		}
 	}
 
-	if(data.PhoneNumber!=""){
-		if !helper.ValidatePhoneNumber(data.PhoneNumber){
+	if data.PhoneNumber != "" {
+		if !helper.ValidatePhoneNumber(data.PhoneNumber) {
 			return errors.New("incomplete or invalid data")
 		}
 	}
-	
-	if(data.Password!=""){
-		if !helper.ValidatePassword(data.Password){
+
+	if data.Password != "" {
+		if !helper.ValidatePassword(data.Password) {
 			return errors.New("incomplete or invalid data")
 		}
-	}	
+	}
 
 	err := us.userRepository.UpdateUser(data)
 	if err != nil {

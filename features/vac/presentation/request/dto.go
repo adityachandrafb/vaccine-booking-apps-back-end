@@ -30,10 +30,10 @@ type VacUpdate struct {
 }
 
 type Session struct {
-	ID          uint
-	Description string
-	StartTime   time.Time
-	EndTime     time.Time
+	ID          uint		`json:"id"`
+	Description string		`json:"description"`
+	StartTime   time.Time	`json:"startTime"`
+	EndTime     time.Time	`json:"endTime"`
 }
 
 type VacFilter struct{
@@ -47,6 +47,7 @@ func (v *Vac) ToCore() vac.VacCore{
 	convertedSession:=[]vac.SessionCore{}
 	for _,req:=range v.Sessions{
 		convertedSession = append(convertedSession, vac.SessionCore{
+			ID: req.ID,
 			Description: req.Description,
 			StartTime: req.StartTime,
 			EndTime: req.EndTime,

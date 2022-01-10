@@ -8,9 +8,9 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func New() *echo.Echo{
-	presenter:=factory.Init()
-	
+func New() *echo.Echo {
+	presenter := factory.Init()
+
 	e := echo.New()
 	jwt := e.Group("")
 	jwt.Use(middleware.JWT([]byte(config.JWT_KEY)))
@@ -19,6 +19,7 @@ func New() *echo.Echo{
 	}))
 
 	jwt.GET("/users", presenter.UserPresentation.GetUsersHandler)
+	jwt.GET("/user", presenter.UserPresentation.GetUserOwnIdentity)
 	jwt.GET("/users/:id", presenter.UserPresentation.GetUserByIdHandler)
 	e.POST("/users/register", presenter.UserPresentation.RegisterUserHandler)
 	e.POST("/users/login", presenter.UserPresentation.LoginUserHandler)
@@ -28,12 +29,20 @@ func New() *echo.Echo{
 	jwt.GET("/admin/:id", presenter.AdminPresentation.GetAdminByIdHandler)
 	e.POST("/admin/register", presenter.AdminPresentation.RegisterAdminHandler)
 	e.POST("/admin/login", presenter.AdminPresentation.LoginAdminHandler)
-	
-	jwt.POST("/vac",presenter.VacPresentation.CreateVacPostHandler)
+
+	jwt.POST("/vac", presenter.VacPresentation.CreateVacPostHandler)
 	e.GET("/vacs", presenter.VacPresentation.GetVacPostHandler)
 	e.GET("/vac/:id", presenter.VacPresentation.GetVacPostByIdHandler)
 	jwt.DELETE("/vac/:id", presenter.VacPresentation.DeletVacPostHandler)
 	jwt.PUT("/vac", presenter.VacPresentation.UpdateVacPostHandler)
+
+	// participant
+	jwt.POST("/participant", presenter.ParticipantPresentation.ApplyParticipantHandler)
+	jwt.GET("/participant/:id", presenter.ParticipantPresentation.GetParticipantByIDHandler)
+	jwt.GET("/participant/user", presenter.ParticipantPresentation.GetParticipantByUserIdHandler)
+	jwt.GET("/participant/vac/:id", presenter.ParticipantPresentation.GetParticipantByVacIdHandler)
+	jwt.PUT("/participant/canceled", presenter.ParticipantPresentation.RejectParticipantHandler)
+	jwt.PUT("/participant/vaccinated", presenter.ParticipantPresentation.AcceptParticipant)
 
 	return e
 }

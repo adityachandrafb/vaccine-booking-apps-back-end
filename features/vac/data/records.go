@@ -8,7 +8,11 @@ import (
 )
 
 type Vac struct {
-	gorm.Model
+    ID        uint `gorm:"primarykey"`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
+
 	Description	string
 	Location	string
 	Latitude 	float64
@@ -20,7 +24,11 @@ type Vac struct {
 }
 
 type Session struct{	
-	gorm.Model
+    ID        uint `gorm:"primarykey"`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
+
 	VacId		uint
 	Description	string
 	StartTime 	time.Time
@@ -29,6 +37,7 @@ type Session struct{
 
 func toRecordSession(req vac.SessionCore)Session{
 	return Session{
+		ID: req.ID,
 		VacId: req.VacId,
 		Description: req.Description,
 		StartTime: req.StartTime,
@@ -42,6 +51,7 @@ func toRecordVac(data vac.VacCore)Vac{
 		convertedSession = append(convertedSession, toRecordSession(req))
 	}
 	return Vac{
+		ID: uint(data.ID),
 		Description	: data.Description, 
 		Location	: data.Location,
 		Latitude 	: data.Latitude,
@@ -94,6 +104,7 @@ func toCoreList(vacs []Vac) []vac.VacCore{
 
 func SeparateVacSession(data Vac)(Vac, []Session){
 	newVac:= Vac{
+		ID: data.ID,
 		Description: data.Description,
 		Location: data.Location,
 		Latitude: data.Latitude,
@@ -103,5 +114,6 @@ func SeparateVacSession(data Vac)(Vac, []Session){
 		AdminId: data.AdminId,
 	}
 	newSessions:=data.Sessions
+	
 	return newVac, newSessions
 }
