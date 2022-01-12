@@ -3,7 +3,6 @@ package service
 import (
 	"errors"
 	"fmt"
-	"strconv"
 	"vac/features/vac"
 	"vac/helper"
 )
@@ -17,9 +16,8 @@ func NewVacUseCase(vacRepository vac.Repository) vac.Service {
 }
 
 func (vu *vacUseCase) CreateVaccinationPost(data vac.VacCore) error {
-	stockString := strconv.Itoa(data.Stock)
-	if helper.IsEmpty(data.Description) || helper.IsEmpty(data.Location) || helper.IsEmpty(stockString) {
-		return errors.New("Invalid data")
+	if helper.IsEmpty(data.Description) || helper.IsEmpty(data.Location) || data.Stock == 0 {
+		return errors.New("make sure description, location, and stock available")
 	}
 	err := vu.vacRepository.InsertData(data)
 	if err != nil {
@@ -61,9 +59,8 @@ func (vu *vacUseCase) DeleteVaccinationPost(data vac.VacCore) (err error) {
 }
 
 func (vu *vacUseCase) UpdateVaccinationPost(data vac.VacCore) error {
-	stockString := strconv.Itoa(data.Stock)
-	if helper.IsEmpty(data.Description) || helper.IsEmpty(data.Location) || helper.IsEmpty(stockString) {
-		return errors.New("Invalid data")
+	if helper.IsEmpty(data.Description) || helper.IsEmpty(data.Location) || data.Stock == 0 {
+		return errors.New("invalid data. make sure description, location, and stock available")
 	}
 	vacData, err := vu.vacRepository.GetVacDataById(data.ID)
 	if err != nil {
