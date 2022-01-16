@@ -15,6 +15,13 @@ func NewVacUseCase(vacRepository vac.Repository) vac.Service {
 	return &vacUseCase{vacRepository}
 }
 
+func (vu *vacUseCase) GetNearbyFacilities(latitude float64, longitude float64) ([]vac.VacCore, error){
+	vacs, err:=vu.vacRepository.GetNearbyFacilities(latitude, longitude)
+	if err!=nil{
+		return nil, err
+	}
+	return vacs, err
+}
 func (vu *vacUseCase) CreateVaccinationPost(data vac.VacCore) error {
 	if helper.IsEmpty(data.Description) || helper.IsEmpty(data.Location) || data.Stock == 0 {
 		return errors.New("make sure description, location, and stock available")

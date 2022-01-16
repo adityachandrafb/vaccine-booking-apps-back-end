@@ -17,6 +17,7 @@ type Vac struct {
 	AdminId     int			`json:"adminId"`
 }
 
+
 type VacUpdate struct {
 	ID          uint		`json:"id"`
 	Description string		`json:"description"`

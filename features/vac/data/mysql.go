@@ -15,6 +15,15 @@ func NewMysqlVaccineRepository(DB *gorm.DB) vac.Repository {
 	return &mysqlVaccineRepository{DB}
 }
 
+func (vr *mysqlVaccineRepository) GetNearbyFacilities(latitude float64, longitude float64) ([]vac.VacCore, error) {
+	var vacs []Vac
+	err:=vr.DB.Debug().Where("latitude BETWEEN ? and ? and longitude between ? and ?", latitude-0.1, latitude+0.1, longitude-0.1, longitude+0.1).Find(&vacs).Error
+	if err!=nil{
+		return nil, err
+	}
+	return toCoreList(vacs), nil
+}
+
 func (vr *mysqlVaccineRepository) InsertData(data vac.VacCore) error {
 	recordData := toRecordVac(data)
 	result := vr.DB.Create(&recordData)
