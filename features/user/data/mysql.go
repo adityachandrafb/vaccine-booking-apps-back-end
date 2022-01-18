@@ -29,7 +29,7 @@ func (mr *mysqlUserRepository) CheckUser(data user.UserCore) (user.UserCore, err
 	err := mr.DB.Where("email=? and password = ?", data.Email, data.Password).First(&userData).Error
 
 	if userData.Name == "" && userData.ID == 0 {
-		return user.UserCore{}, errors.New("no existing user")
+		return user.UserCore{}, errors.New("email atau password salah")
 	}
 	if err != nil {
 		return user.UserCore{}, err
@@ -42,7 +42,7 @@ func (mr *mysqlUserRepository) GetDataById(id int) (user.UserCore, error) {
 	err := mr.DB.First(&userData, id).Error
 
 	if userData.Name == "" && userData.ID == 0 {
-		return user.UserCore{}, errors.New("no existing user")
+		return user.UserCore{}, errors.New("tidak ada data ditemukan")
 	}
 	if err != nil {
 		return user.UserCore{}, err
@@ -56,7 +56,7 @@ func (mr *mysqlUserRepository) GetUserOwnIdentity(id int) (user.UserCore, error)
 	err := mr.DB.First(&userData, id).Error
 
 	if userData.Name == "" && userData.ID == 0 {
-		return user.UserCore{}, errors.New("no existing user")
+		return user.UserCore{}, errors.New("tidak ada data ditemukan")
 	}
 	if err != nil {
 		return user.UserCore{}, err

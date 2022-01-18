@@ -30,7 +30,7 @@ func (uh *UserHandler) RegisterUserHandler(e echo.Context) error {
 	}
 	err = uh.userService.RegisterUser(userData.ToUserCore())
 	if err != nil {
-		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "data kurang lengkap", err)
 	}
 	return helper.SuccessResponse(e, nil)
 }
@@ -55,7 +55,7 @@ func (uh *UserHandler) LoginUserHandler(e echo.Context) error {
 
 	data, err := uh.userService.LoginUser(userAuth.ToUserCore())
 	if err != nil {
-		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "email atau password salah", err)
 	}
 
 	return helper.SuccessResponse(e, response.TouserLoginResponse(data))
