@@ -15,9 +15,9 @@ func NewMysqlVaccineRepository(DB *gorm.DB) vac.Repository {
 	return &mysqlVaccineRepository{DB}
 }
 
-func (vr *mysqlVaccineRepository) GetNearbyFacilities(lat float64, long float64) ([]vac.VacCore, error) {
+func (vr *mysqlVaccineRepository) GetNearbyFacilities(lat float64, long float64, radius float64) ([]vac.VacCore, error) {
 	var vacs []Vac
-	err:=vr.DB.Debug().Raw("SELECT *, ( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance FROM vacs HAVING distance < 50 ORDER BY distance ", lat, long, lat).Find(&vacs).Error
+	err:=vr.DB.Debug().Raw("SELECT *, ( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance FROM vacs HAVING distance < ? ORDER BY distance ", lat, long, lat, radius).Find(&vacs).Error
 	if err!=nil{
 		return nil, err
 	}

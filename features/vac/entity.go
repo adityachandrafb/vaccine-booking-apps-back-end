@@ -29,7 +29,7 @@ type Service interface{
 	DeleteVaccinationPost(data VacCore)(err error)
 	UpdateVaccinationPost(data VacCore)error
 	//get nearby facilities
-	GetNearbyFacilities(latitude float64, longitude float64)([]VacCore, error)
+	GetNearbyFacilities(latitude float64, longitude float64, radius float64)([]VacCore, error)
 }
 
 type Repository interface{
@@ -39,5 +39,5 @@ type Repository interface{
 	DeleteVacData(data VacCore)error
 	UpdateVacData(data VacCore)error
 	//get nearby facilities
-	GetNearbyFacilities(latitude float64, longitude float64)([]VacCore, error)
+	GetNearbyFacilities(latitude float64, longitude float64, radius float64)([]VacCore, error)
 }

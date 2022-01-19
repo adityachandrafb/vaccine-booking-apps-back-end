@@ -15,8 +15,8 @@ func NewVacUseCase(vacRepository vac.Repository) vac.Service {
 	return &vacUseCase{vacRepository}
 }
 
-func (vu *vacUseCase) GetNearbyFacilities(latitude float64, longitude float64) ([]vac.VacCore, error){
-	vacs, err:=vu.vacRepository.GetNearbyFacilities(latitude, longitude)
+func (vu *vacUseCase) GetNearbyFacilities(latitude float64, longitude float64, radius float64) ([]vac.VacCore, error){
+	vacs, err:=vu.vacRepository.GetNearbyFacilities(latitude, longitude, radius)
 	if err!=nil{
 		return nil, err
 	}

@@ -27,7 +27,7 @@ func (vh *VacHandler) GetNearbyFacilitiesHandler(e echo.Context) error {
 	if err!=nil{
 		return err
 	}
-	data, err:=vh.vacService.GetNearbyFacilities(payloadData.Latitude, payloadData.Longitude)
+	data, err:=vh.vacService.GetNearbyFacilities(payloadData.Latitude, payloadData.Longitude, payloadData.Radius)
 	if err!=nil{
 		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
 	}
