@@ -21,6 +21,20 @@ func NewVacHandler(vs vac.Service) *VacHandler {
 	return &VacHandler{vs}
 }
 
+func (vh *VacHandler) GetNearbyFacilitiesHandler(e echo.Context) error {
+	payloadData:=request.VacFilter{}
+	err:=e.Bind(&payloadData)
+	if err!=nil{
+		return err
+	}
+	data, err:=vh.vacService.GetNearbyFacilities(payloadData.Latitude, payloadData.Longitude, payloadData.Radius)
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+	return helper.SuccessResponse(e, response.ToVacResponseList(data))
+	
+}
+
 func (vh *VacHandler) CreateVacPostHandler(e echo.Context) error {
 	payloadData := request.Vac{}
 	err := e.Bind(&payloadData)

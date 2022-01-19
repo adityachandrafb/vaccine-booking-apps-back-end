@@ -17,6 +17,7 @@ type Vac struct {
 	AdminId     int			`json:"adminId"`
 }
 
+
 type VacUpdate struct {
 	ID          uint		`json:"id"`
 	Description string		`json:"description"`
@@ -41,6 +42,7 @@ type VacFilter struct{
 	Location    string		`json:"location"`
 	Latitude    float64		`json:"latitude"`
 	Longitude   float64		`json:"longitude"`
+	Radius		float64		`json:"radius"`
 }
 
 func (v *Vac) ToCore() vac.VacCore{
