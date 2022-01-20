@@ -17,6 +17,7 @@ type Vac struct {
 	Location	string
 	Latitude 	float64
 	Longitude 	float64
+	Distance	float64	
 	Sessions	[]Session
 	VacType		string
 	Stock		int

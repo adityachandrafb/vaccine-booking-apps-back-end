@@ -26,7 +26,7 @@ func (us *userService) RegisterUser(data user.UserCore) error {
 		return err
 	}
 	if isExist {
-		msg := fmt.Sprintf("email %v already in used", data.Email)
+		msg := fmt.Sprintf("email %v tidak bisa didaftarkan", data.Email)
 		return errors.New(msg)
 	}
 
@@ -35,7 +35,7 @@ func (us *userService) RegisterUser(data user.UserCore) error {
 		return err
 	}
 	if isExistNIK {
-		msg := fmt.Sprintf("nik %v already in used", data.Nik)
+		msg := fmt.Sprintf("nik %v tidak bisa didaftarkan", data.Nik)
 		return errors.New(msg)
 	}
 
@@ -98,7 +98,7 @@ func (us *userService) GetUserOwnIdentity(id int) (user.UserCore, error) {
 func (us *userService) UpdateUser(data user.UserCore) error {
 	if data.Nik != "" {
 		if !helper.ValidateNik(data.Nik) {
-			return errors.New("incomplete or invalid data")
+			return errors.New("data kurang lengkap")
 		}
 
 		isExistNIK, err := us.userRepository.GetUserByNik(data.Nik)
@@ -106,14 +106,14 @@ func (us *userService) UpdateUser(data user.UserCore) error {
 			return err
 		}
 		if isExistNIK {
-			msg := fmt.Sprintf("nik %v already in used", data.Nik)
+			msg := fmt.Sprintf("nik %v tidak bisa didaftarkan", data.Nik)
 			return errors.New(msg)
 		}
 	}
 
 	if data.Email != "" {
 		if !helper.ValidateEmail(data.Email) {
-			return errors.New("incomplete or invalid data")
+			return errors.New("data kurang lengkap")
 		}
 
 		isExist, err := us.userRepository.GetUserByEmail(data.Email)
@@ -121,7 +121,7 @@ func (us *userService) UpdateUser(data user.UserCore) error {
 			return err
 		}
 		if isExist {
-			msg := fmt.Sprintf("email %v already in used", data.Email)
+			msg := fmt.Sprintf("email %v tidak bisa didaftarkan", data.Email)
 			return errors.New(msg)
 		}
 	}
@@ -134,7 +134,7 @@ func (us *userService) UpdateUser(data user.UserCore) error {
 
 	if data.Password != "" {
 		if !helper.ValidatePassword(data.Password) {
-			return errors.New("incomplete or invalid data")
+			return errors.New("data kurang lengkap")
 		}
 	}
 
