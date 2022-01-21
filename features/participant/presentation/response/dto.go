@@ -73,6 +73,7 @@ type VacResponse struct {
 	ID          uint
 	Description string
 	Location    string
+	Address		string
 	// Sessions    []SessionResponse
 	VacType string
 	Stock   int
@@ -82,6 +83,7 @@ type VacDetailResponse struct {
 	ID          int
 	Description string
 	Location    string
+	Address		string
 	Latitude    float64
 	Longitude   float64
 	// Sessions    []SessionResponse
@@ -133,6 +135,7 @@ func ToVacResponse(data participant.VacCore) VacResponse {
 		ID:          uint(data.ID),
 		Description: data.Description,
 		Location:    data.Location,
+		Address: data.Address,
 		VacType:     data.VacType,
 		Stock:       data.Stock,
 	}
@@ -201,6 +204,7 @@ func ToVacDetailResponse(data participant.VacCore) VacDetailResponse {
 		ID:          data.ID,
 		Description: data.Description,
 		Location:    data.Location,
+		Address: data.Address,
 		Latitude:    data.Latitude,
 		Longitude:   data.Longitude,
 		VacType:     data.VacType,

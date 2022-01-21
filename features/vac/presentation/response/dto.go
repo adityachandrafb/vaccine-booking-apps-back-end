@@ -17,6 +17,7 @@ type VacResponse struct {
 	ID          uint
 	Description string
 	Location    string
+	Address		string
 	Latitude    float64
 	Longitude   float64
 	Sessions    []SessionResponse
@@ -59,6 +60,7 @@ func ToVacResponse(data vac.VacCore)VacResponse{
 		ID: uint(data.ID),
 		Description: data.Description,
 		Location: data.Location,
+		Address: data.Address,
 		Latitude: data.Latitude,
 		Longitude: data.Longitude,
 		Sessions: convertedSessions,

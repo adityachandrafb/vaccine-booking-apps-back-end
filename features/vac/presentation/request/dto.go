@@ -9,6 +9,7 @@ type Vac struct {
 	ID          uint		`json:"id"`
 	Description string		`json:"description"`
 	Location    string		`json:"location"`
+	Address		string		`json:"address"`
 	Latitude    float64		`json:"latitude"`
 	Longitude   float64		`json:"longitude"`
 	Sessions    []Session	`json:"sessions"`
@@ -22,6 +23,7 @@ type VacUpdate struct {
 	ID          uint		`json:"id"`
 	Description string		`json:"description"`
 	Location    string		`json:"location"`
+	Address		string		`json:"address"`
 	Latitude    float64		`json:"latitude"`
 	Longitude   float64		`json:"longitude"`
 	Sessions    []Session	`json:"sessions"`
@@ -40,6 +42,7 @@ type Session struct {
 type VacFilter struct{
 	Description string		`json:"description"`
 	Location    string		`json:"location"`
+	Address		string		`json:"address"`
 	Latitude    float64		`json:"latitude"`
 	Longitude   float64		`json:"longitude"`
 	Radius		float64		`json:"radius"`
@@ -59,6 +62,7 @@ func (v *Vac) ToCore() vac.VacCore{
 		ID: int(v.ID),
 		Description: v.Description,
 		Location: v.Location,
+		Address: v.Address,
 		Latitude: v.Latitude,
 		Longitude: v.Longitude,
 		Sessions: convertedSession,
@@ -72,6 +76,7 @@ func (vf *VacFilter) ToCore() vac.VacCore{
 	return vac.VacCore{
 		Description: vf.Description,
 		Location: vf.Location,
+		Address: vf.Address,
 		Latitude: vf.Latitude,
 		Longitude: vf.Longitude,
 	}
@@ -96,6 +101,7 @@ func (vu *VacUpdate) ToCore() vac.VacCore{
 		ID: int(vu.ID),
 		Description: vu.Description,
 		Location: vu.Location,
+		Address: vu.Address,
 		Latitude: vu.Latitude,
 		Longitude: vu.Longitude,
 		Sessions: convertedSession,

@@ -15,6 +15,7 @@ type Vac struct {
 
 	Description	string
 	Location	string
+	Address		string
 	Latitude 	float64
 	Longitude 	float64
 	Distance	float64	
@@ -55,6 +56,7 @@ func toRecordVac(data vac.VacCore)Vac{
 		ID: uint(data.ID),
 		Description	: data.Description, 
 		Location	: data.Location,
+		Address		: data.Address,
 		Latitude 	: data.Latitude,
 		Longitude 	: data.Longitude,
 		Sessions	: convertedSession,
@@ -74,6 +76,7 @@ func (v *Vac) toCore() vac.VacCore{
 		ID: int(v.ID),
 		Description: v.Description,
 		Location: v.Location,
+		Address: v.Address,
 		Latitude: v.Latitude,
 		Longitude: v.Longitude,
 		Sessions: convertedSession,
@@ -108,6 +111,7 @@ func SeparateVacSession(data Vac)(Vac, []Session){
 		ID: data.ID,
 		Description: data.Description,
 		Location: data.Location,
+		Address: data.Address,
 		Latitude: data.Latitude,
 		Longitude: data.Longitude,
 		VacType: data.VacType,
