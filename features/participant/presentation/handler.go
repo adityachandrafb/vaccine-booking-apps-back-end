@@ -105,7 +105,7 @@ func (ph *ParticipantHandler) AcceptParticipant(e echo.Context) error {
 func (ph *ParticipantHandler) GetParticipantByIDHandler(e echo.Context) error {
 	claims := middleware.ExtractClaim(e)
 	role := claims["role"].(string)
-	if role != "admin" {
+	if role != "user" {
 		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to get data", errors.New("forbidden"))
 	}
 	id, err := strconv.Atoi(e.Param("id"))
