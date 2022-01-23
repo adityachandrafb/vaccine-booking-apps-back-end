@@ -21,6 +21,18 @@ func NewVacHandler(vs vac.Service) *VacHandler {
 	return &VacHandler{vs}
 }
 
+func (vh *VacHandler) GetVacByIdAdminHandler(e echo.Context) error {
+	id, err := strconv.Atoi(e.Param("id"))
+	if err != nil {
+		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid id parameter", err)
+	}
+	vac, err := vh.vacService.GetVacByIdAdmin(id)
+	if err != nil {
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+	return helper.SuccessResponse(e, response.ToVacResponseList(vac))
+}
+
 func (vh *VacHandler) GetNearbyFacilitiesHandler(e echo.Context) error {
 	payloadData:=request.VacFilter{}
 	err:=e.Bind(&payloadData)

@@ -15,6 +15,15 @@ func NewVacUseCase(vacRepository vac.Repository) vac.Service {
 	return &vacUseCase{vacRepository}
 }
 
+func (vu *vacUseCase) GetVacByIdAdmin(id int) ([]vac.VacCore, error){
+	vacs, err:=vu.vacRepository.GetVacByIdAdmin(id)
+	if err!=nil{
+		return nil, err
+	}
+	return vacs, err
+	
+}
+
 func (vu *vacUseCase) GetNearbyFacilities(latitude float64, longitude float64, radius float64) ([]vac.VacCore, error){
 	vacs, err:=vu.vacRepository.GetNearbyFacilities(latitude, longitude, radius)
 	if err!=nil{

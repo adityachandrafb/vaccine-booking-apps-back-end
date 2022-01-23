@@ -17,9 +17,21 @@ func NewMysqlVaccineRepository(DB *gorm.DB) vac.Repository {
 	return &mysqlVaccineRepository{DB}
 }
 
+func (vr *mysqlVaccineRepository) GetVacByIdAdmin(id int) ([]vac.VacCore, error){
+	var vacs []Vac
+
+	err := vr.DB.Debug().Where("admin_id=?", id).Find(&vacs).Error
+
+	if err!=nil{
+		return nil, err
+	}
+	return toCoreList(vacs),  nil
+	
+}
+
 func (vr *mysqlVaccineRepository) GetNearbyFacilities(lat float64, long float64, radius float64) ([]vac.VacCore, error) {
 	var vacs []Vac
-	err:=vr.DB.Debug().Raw("SELECT *, ( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance FROM vacs HAVING distance < ? ORDER BY distance ", lat, long, lat, radius).Find(&vacs).Error
+	err:=vr.DB.Debug().Raw("SELECT *, ( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance FROM vacs HAVING distance < ? ORDER BY distance ", lat, long, lat, radius).Joins("Vac").Find(&vacs).Error
 
 	ss,_:=json.MarshalIndent(vacs, "", " ")
 	
