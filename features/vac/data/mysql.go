@@ -20,7 +20,7 @@ func NewMysqlVaccineRepository(DB *gorm.DB) vac.Repository {
 func (vr *mysqlVaccineRepository) GetVacByIdAdmin(id int) ([]vac.VacCore, error){
 	var vacs []Vac
 
-	err := vr.DB.Debug().Where("admin_id=?", id).Find(&vacs).Error
+	err := vr.DB.Debug().Where("admin_id=?", id).Preload("Sessions").Find(&vacs).Error
 
 	if err!=nil{
 		return nil, err
