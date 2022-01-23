@@ -16,12 +16,14 @@ type AdminLoginResponse struct {
 	ID	     uint	`json: "id"`
 	Name     string `json: "name"`
 	Position string `json: "position"`
+	Email	string	`json: "email"`
 	Token	 string `json:	"token"`
 }
 
 type AdminResponse struct {
 	ID	     uint	`json: "id"`
 	Name     string `json: "name"`
+	Email	string	`json: "email"`
 	Position string `json: "position"`
 }
 
@@ -42,6 +44,7 @@ func ToAdminLoginResponse(data admin.AdminCore)AdminLoginResponse{
 		ID: data.ID,
 		Name: data.Name,
 		Position: data.Position,
+		Email: data.Email,
 		Token: data.Token,
 	}
 }
@@ -51,6 +54,7 @@ func ToAdminResponse(data admin.AdminCore)AdminResponse{
 		ID: data.ID,
 		Name: data.Name,
 		Position: data.Position,
+		Email: data.Email,
 	}
 }
 

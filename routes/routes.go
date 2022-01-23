@@ -36,7 +36,7 @@ func New() *echo.Echo {
 	jwt.DELETE("/vac/:id", presenter.VacPresentation.DeletVacPostHandler)
 	jwt.PUT("/vac", presenter.VacPresentation.UpdateVacPostHandler)
 	e.POST("/near", presenter.VacPresentation.GetNearbyFacilitiesHandler)
-	e.GET("/vacbyadmin/:id", presenter.VacPresentation.GetVacByIdAdminHandler)
+	e.GET("/vacbyadmin", presenter.VacPresentation.GetVacByIdAdminHandler)
 
 	// participant
 	jwt.POST("/participant", presenter.ParticipantPresentation.ApplyParticipantHandler)
