@@ -40,7 +40,7 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 		msg := fmt.Sprintf("vac with id %v failed to count", vacData.ID)
 		return errors.New(msg)
 	}
-	if stockUsed > vacData.Stock {
+	if stockUsed > vacData.Stock+1 {
 		msg := fmt.Sprintf("Mohon maaf vaksin di %v sudah habis. Boleh dicoba di tempat lain ya 🤓", vacData.Location)
 		return errors.New(msg)
 	}
