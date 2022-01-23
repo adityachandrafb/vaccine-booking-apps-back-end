@@ -31,32 +31,48 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 	}
 
 	if vacData.ID == 0 {
-		msg := fmt.Sprintf("vac with id %v not found", data.VacID)
+		msg := fmt.Sprintf("vac with id %v not found", vacData.ID)
 		return errors.New(msg)
 	}
 
 	stockUsed, err := pr.parRepository.CountParticipantByVac(int(data.VacID))
 	if err != nil {
-		msg := fmt.Sprintf("vac with id %v failed to count", data.VacID)
+		msg := fmt.Sprintf("vac with id %v failed to count", vacData.ID)
 		return errors.New(msg)
 	}
 	if stockUsed > vacData.Stock {
-		msg := fmt.Sprintf("This vaccination with id %v is out of stock", data.VacID)
+		msg := fmt.Sprintf("Mohon maaf vaksin di %v sudah habis. Boleh dicoba di tempat lain ya 🤓", vacData.Location)
 		return errors.New(msg)
 	}
 
 	limitUser, err := pr.parRepository.CountParicipantByUserId(int(data.UserID))
 	if err != nil {
-		msg := fmt.Sprintf("vac with id %v failed to count", data.VacID)
+		msg := fmt.Sprintf("vac with id %v failed to count", vacData.ID)
 		return errors.New(msg)
 	}
 	if limitUser > 5 {
-		msg := fmt.Sprintf("user with id %v already reach limit for applying new participant", data.UserID)
+		msg := "mohon maaf, kamu sudah melebihi batas untuk mendaftarkan partisipan 😭"
 		return errors.New(msg)
 	}
 
-	if !helper.ValidateNik(data.Nik) || !helper.ValidatePhoneNumber(data.PhoneNumber) || len(data.Fullname) == 0 || len(data.Address) == 0 || data.SessionID == 0 {
-		return errors.New("incomplete or invalid data. please input the correct nik, session, fullname, and address")
+	if !helper.ValidateNik(data.Nik) {
+		return errors.New("panjang nik harus 16 karakter 😡")
+	}
+
+	if  !helper.ValidatePhoneNumber(data.PhoneNumber) {
+		return errors.New("nomor telepon hanya boleh 8-15 angka 👌🏻")
+	}
+
+	if len(data.Fullname) == 0 {
+		return errors.New("nama partisipan jangan lupa 😇")
+	}
+
+	if  len(data.Address) == 0 {
+		return errors.New("alamat partisipan diisi ya 😻")
+	}
+
+	if data.SessionID == 0 {
+		return errors.New("sesinya jangan lupa diisi ya syg 😘")
 	}
 
 	isExist, err := pr.parRepository.GetParticipantByNIK(data.Nik)
@@ -64,7 +80,7 @@ func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 		return err
 	}
 	if isExist {
-		msg := fmt.Sprintf("nik %v already registered", data.Nik)
+		msg := "nik yang kamu masukkan sudah terdaftar 🤭"
 		return errors.New(msg)
 	}
 
