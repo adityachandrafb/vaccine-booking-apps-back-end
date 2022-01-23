@@ -21,6 +21,7 @@ func ToVacCore(data vac.VacCore) participant.VacCore {
 		ID:          data.ID,
 		Description: data.Description,
 		Location:    data.Location,
+		Address: data.Address,
 		Latitude:    data.Latitude,
 		Longitude:   data.Longitude,
 		// Sessions:    ToSessionCore(data.Sessions),

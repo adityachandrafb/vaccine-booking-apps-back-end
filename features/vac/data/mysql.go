@@ -2,6 +2,8 @@ package data
 
 import (
 	// "fmt"
+	"encoding/json"
+	"fmt"
 	"vac/features/vac"
 
 	"gorm.io/gorm"
@@ -18,6 +20,11 @@ func NewMysqlVaccineRepository(DB *gorm.DB) vac.Repository {
 func (vr *mysqlVaccineRepository) GetNearbyFacilities(lat float64, long float64, radius float64) ([]vac.VacCore, error) {
 	var vacs []Vac
 	err:=vr.DB.Debug().Raw("SELECT *, ( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance FROM vacs HAVING distance < ? ORDER BY distance ", lat, long, lat, radius).Find(&vacs).Error
+
+	ss,_:=json.MarshalIndent(vacs, "", " ")
+	
+	fmt.Println(string(ss))
+	
 	if err!=nil{
 		return nil, err
 	}

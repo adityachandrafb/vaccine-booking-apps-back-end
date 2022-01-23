@@ -27,6 +27,7 @@ type Vac struct {
 	gorm.Model
 	Description string
 	Location    string
+	Address		string
 	Latitude    float64
 	Longitude   float64
 	VacType     string
@@ -57,14 +58,15 @@ func (v *Vac) toCore() participant.VacCore {
 	// }
 	return participant.VacCore{
 		ID:          int(v.ID),
-		Description: v.Description,
-		Location:    v.Location,
-		Latitude:    v.Latitude,
-		Longitude:   v.Longitude,
+		Description:	v.Description,
+		Location:   	v.Location,
+		Address: 		v.Address,
+		Latitude:   	v.Latitude,
+		Longitude:  	v.Longitude,
 		// Sessions:    convertedSession,
-		VacType: v.VacType,
-		Stock:   v.Stock,
-		AdminId: v.AdminId,
+		VacType: 		v.VacType,
+		Stock:   		v.Stock,
+		AdminId: 		v.AdminId,
 	}
 }
 

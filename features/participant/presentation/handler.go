@@ -2,6 +2,7 @@ package presentation
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"vac/features/participant"
@@ -103,11 +104,7 @@ func (ph *ParticipantHandler) AcceptParticipant(e echo.Context) error {
 }
 
 func (ph *ParticipantHandler) GetParticipantByIDHandler(e echo.Context) error {
-	claims := middleware.ExtractClaim(e)
-	role := claims["role"].(string)
-	if role != "admin" {
-		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to get data", errors.New("forbidden"))
-	}
+	
 	id, err := strconv.Atoi(e.Param("id"))
 	if err != nil {
 		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid id parameter", err)
@@ -116,7 +113,17 @@ func (ph *ParticipantHandler) GetParticipantByIDHandler(e echo.Context) error {
 	if err != nil {
 		return helper.ErrorResponse(e, http.StatusInternalServerError, "somethinng went wrong", err)
 	}
+	
+	claims := middleware.ExtractClaim(e)
+	userId := uint(claims["id"].(float64))
+	parCoreUserID :=parCore.UserID
+	fmt.Println(userId)
+	fmt.Println(parCore.User.ID)
+	fmt.Println(parCore.UserID)
 
+	if userId != parCoreUserID {
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to get data", errors.New("forbidden"))
+	}
 	return helper.SuccessResponse(e, response.ToParticipantResponse(parCore))
 }
 

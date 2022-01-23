@@ -30,6 +30,7 @@ type VacCore struct {
 	ID          int
 	Description string
 	Location    string
+	Address		string
 	Latitude    float64
 	Longitude   float64
 	VacType     string
