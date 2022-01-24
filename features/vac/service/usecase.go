@@ -32,8 +32,26 @@ func (vu *vacUseCase) GetNearbyFacilities(latitude float64, longitude float64, r
 	return vacs, err
 }
 func (vu *vacUseCase) CreateVaccinationPost(data vac.VacCore) error {
-	if helper.IsEmpty(data.Description) || helper.IsEmpty(data.Location) || data.Stock == 0 {
-		return errors.New("make sure description, location, and stock available")
+	if helper.IsEmpty(data.Description){
+		return errors.New("deskripsi harus ada")
+	}
+	if helper.IsEmpty(data.Location){
+		return errors.New("lokasi harus ada")
+	}
+	if helper.IsEmpty(data.Address){
+		return errors.New("alamat harus ada")
+	}
+	if len(data.Sessions)==0{
+		return errors.New("sesi harus ada")
+	}
+	if data.Stock==0{
+		return errors.New("stok harus ada")
+	}
+	if !helper.LatLongIsEmpty(data.Longitude){
+		return errors.New("longitude harus ada")
+	}
+	if !helper.LatLongIsEmpty(data.Latitude){
+		return errors.New("latitude harus ada")
 	}
 	err := vu.vacRepository.InsertData(data)
 	if err != nil {

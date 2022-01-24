@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -46,4 +47,9 @@ func ValidatePassword(password string) bool {
 
 func IsEmpty(str string) bool {
 	return len(strings.Trim(str, " ")) == 0
+}
+
+func LatLongIsEmpty(data float64)bool{
+	s := fmt.Sprintf("%f", data)
+	if s!=""{return true}else{return false}
 }
