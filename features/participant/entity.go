@@ -58,6 +58,7 @@ type Repository interface {
 	GetParticipantByNIK(nik string) (bool, error)
 	CountParticipantByVac(vacId int) (int, error)
 	CountParicipantByUserId(userId int) (int, error)
+	DeleteParticipant(ParticipantCore)error
 }
 
 type Service interface {
@@ -68,4 +69,5 @@ type Service interface {
 	GetParticipantMultiParam(int, int) (ParticipantCore, error)
 	RejectParticipant(int, int) error
 	AcceptParticipant(int, int) error
+	DeleteParticipant(ParticipantCore) error
 }

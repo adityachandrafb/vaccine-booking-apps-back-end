@@ -22,6 +22,27 @@ func NewParticipantHandler(ps participant.Service) *ParticipantHandler {
 	return &ParticipantHandler{ps}
 }
 
+func (ph *ParticipantHandler)DeleteParticipantHandler(e echo.Context) error{
+	id, err:=strconv.Atoi(e.Param("id"))
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusBadRequest,"invalid id parameter", err)
+	}
+	claims:=middleware.ExtractClaim(e)
+	userId:=claims["id"].(float64)
+	role:=claims["role"].(string)
+	if role!="user"{
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to delete data", errors.New("not allowed to delete data"))
+	}
+	err=ph.participantService.DeleteParticipant(participant.ParticipantCore{
+		ID: uint(id),
+		UserID: uint(userId),
+	})
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+	return helper.SuccessResponse(e, nil)
+}
+
 func (ph *ParticipantHandler) ApplyParticipantHandler(e echo.Context) error {
 	parData := request.ParticipantRequest{}
 	err := e.Bind(&parData)

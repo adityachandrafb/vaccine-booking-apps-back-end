@@ -24,6 +24,24 @@ func NewParService(pr participant.Repository, vs vac.Service, us user.Service) p
 	}
 }
 
+func (pr *parService) DeleteParticipant(data participant.ParticipantCore) error {
+	parData, err:=pr.parRepository.GetParticipantByID(int(data.ID))
+	if err!=nil{
+		return err
+	}
+	if parData.UserID!=data.UserID{
+		msg := fmt.Sprintf("user with id %v does not have vaccination post with id %v", data.UserID, data.ID)
+		return errors.New(msg)
+	}
+	err=pr.parRepository.DeleteParticipant(data)
+	if err!=nil{
+		return err
+	}
+	return nil
+}
+
+
+
 func (pr *parService) ApplyParticipant(data participant.ParticipantCore) error {
 	vacData, err := pr.vacService.GetVaccinationByIdPost(int(data.VacID))
 	if err != nil {
