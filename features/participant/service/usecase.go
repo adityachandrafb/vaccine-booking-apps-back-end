@@ -24,6 +24,27 @@ func NewParService(pr participant.Repository, vs vac.Service, us user.Service) p
 	}
 }
 
+func (pr *parService) UpdateParticipant(data participant.ParticipantCore) error {
+
+	if helper.IsEmpty(data.Fullname)||helper.IsEmpty(data.Nik)||helper.IsEmpty(data.Address)||helper.IsEmpty(data.PhoneNumber){
+		return errors.New("data harus terisi semua")
+
+	}
+	parData, err:=pr.parRepository.GetParticipantByID(int(data.ID))
+	if err!=nil{
+		return err
+	}
+	if parData.UserID!=data.UserID{
+		msg := fmt.Sprintf("user with id %v does not have vaccination post with id %v", data.UserID, data.ID)
+		return errors.New(msg)
+	}
+	err=pr.parRepository.UpdateParticipant(data)
+	if err!=nil{
+		return err
+	}
+	return err
+	
+}
 func (pr *parService) DeleteParticipant(data participant.ParticipantCore) error {
 	parData, err:=pr.parRepository.GetParticipantByID(int(data.ID))
 	if err!=nil{

@@ -59,6 +59,7 @@ type Repository interface {
 	CountParticipantByVac(vacId int) (int, error)
 	CountParicipantByUserId(userId int) (int, error)
 	DeleteParticipant(ParticipantCore)error
+	UpdateParticipant(data ParticipantCore)error
 }
 
 type Service interface {
@@ -70,4 +71,5 @@ type Service interface {
 	RejectParticipant(int, int) error
 	AcceptParticipant(int, int) error
 	DeleteParticipant(ParticipantCore) error
+	UpdateParticipant(data ParticipantCore)error
 }

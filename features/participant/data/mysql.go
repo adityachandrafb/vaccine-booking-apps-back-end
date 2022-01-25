@@ -15,6 +15,14 @@ func NewMysqlParticipantRepository(db *gorm.DB) participant.Repository {
 	return &mysqlParRepository{db}
 }
 
+func (pr *mysqlParRepository) UpdateParticipant(data participant.ParticipantCore) error {
+	parData:= ToParticipantRecord(data)
+	err:=pr.DB.Debug().Where("id = ?", data.ID).Updates(&parData).Error
+	if err!=nil{
+		return err
+	}
+	return nil
+}
 func (pr *mysqlParRepository) DeleteParticipant(data participant.ParticipantCore) error {
 	err:=pr.DB.Debug().Delete(&Participant{}, data.ID).Error
 	if err!=nil{

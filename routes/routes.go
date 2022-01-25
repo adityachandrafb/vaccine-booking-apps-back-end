@@ -46,6 +46,8 @@ func New() *echo.Echo {
 	jwt.PUT("/participant/canceled", presenter.ParticipantPresentation.RejectParticipantHandler)
 	jwt.PUT("/participant/vaccinated", presenter.ParticipantPresentation.AcceptParticipant)
 
+	jwt.PUT("/participant", presenter.ParticipantPresentation.UpdateParticipant)
+
 	jwt.DELETE("/participant/:id", presenter.ParticipantPresentation.DeleteParticipantHandler)
 	return e
 }

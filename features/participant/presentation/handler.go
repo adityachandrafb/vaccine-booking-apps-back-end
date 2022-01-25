@@ -22,6 +22,24 @@ func NewParticipantHandler(ps participant.Service) *ParticipantHandler {
 	return &ParticipantHandler{ps}
 }
 
+func (ph *ParticipantHandler)UpdateParticipant(e echo.Context) error{
+	payloadData:=request.ParticipantRequest{}
+	err:=e.Bind(&payloadData)
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid payload data", err)
+	}
+	claims:=middleware.ExtractClaim(e)
+	payloadData.UserID=uint(claims["id"].(float64))
+	role:=claims["role"].(string)
+	if role!="user"{
+		return helper.ErrorResponse(e, http.StatusForbidden, "role not allowed to update data", errors.New("not allowed"))
+	}
+	err=ph.participantService.UpdateParticipant(payloadData.ToCore())
+	if err!=nil{
+		return helper.ErrorResponse(e, http.StatusInternalServerError, "something went wrong", err)
+	}
+	return helper.SuccessResponse(e, nil)
+}
 func (ph *ParticipantHandler)DeleteParticipantHandler(e echo.Context) error{
 	id, err:=strconv.Atoi(e.Param("id"))
 	if err!=nil{
