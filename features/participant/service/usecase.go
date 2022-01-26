@@ -31,6 +31,7 @@ func (pr *parService) UpdateParticipant(data participant.ParticipantCore) error 
 
 	}
 	parData, err:=pr.parRepository.GetParticipantByID(int(data.ID))
+		fmt.Println(parData.ID)
 	if err!=nil{
 		return err
 	}

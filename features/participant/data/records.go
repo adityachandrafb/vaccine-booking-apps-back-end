@@ -8,7 +8,12 @@ import (
 )
 
 type Participant struct {
-	gorm.Model
+	
+	ID        uint `gorm:"primarykey"`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
+	
 	Nik         string
 	Fullname    string
 	Address     string
@@ -24,7 +29,11 @@ type Participant struct {
 }
 
 type Vac struct {
-	gorm.Model
+    ID        uint `gorm:"primarykey"`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
+
 	Description string
 	Location    string
 	Address		string
@@ -36,7 +45,11 @@ type Vac struct {
 }
 
 type Session struct {
-	gorm.Model
+	
+    ID        uint `gorm:"primarykey"`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
 	VacId       uint
 	Description string
 	StartTime   time.Time
@@ -44,7 +57,10 @@ type Session struct {
 }
 
 type User struct {
-	gorm.Model
+    ID        uint `gorm:"primarykey"`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
 	Nik         string
 	Name        string
 	PhoneNumber string

@@ -22,8 +22,8 @@ func NewParticipantHandler(ps participant.Service) *ParticipantHandler {
 	return &ParticipantHandler{ps}
 }
 
-func (ph *ParticipantHandler)UpdateParticipant(e echo.Context) error{
-	payloadData:=request.ParticipantRequest{}
+func (ph *ParticipantHandler)UpdateParticipantHandler(e echo.Context) error{
+	payloadData:=request.ParticipantUpdateRequest{}
 	err:=e.Bind(&payloadData)
 	if err!=nil{
 		return helper.ErrorResponse(e, http.StatusBadRequest, "invalid payload data", err)
@@ -40,6 +40,7 @@ func (ph *ParticipantHandler)UpdateParticipant(e echo.Context) error{
 	}
 	return helper.SuccessResponse(e, nil)
 }
+
 func (ph *ParticipantHandler)DeleteParticipantHandler(e echo.Context) error{
 	id, err:=strconv.Atoi(e.Param("id"))
 	if err!=nil{
